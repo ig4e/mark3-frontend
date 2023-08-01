@@ -192,7 +192,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
 					return {
 						...info,
-						status: info.totalScore / 2 > Number(grades) ? "PASSED" : "FAILED",
+						status: (info.totalScore / 2 > Number(grades) ? "PASSED" : "FAILED") as "PASSED" | "FAILED",
 						grades,
 						precentage: (Number(grades) / info.totalScore) * 100,
 					};
@@ -207,7 +207,7 @@ export default function Page({ params }: { params: { id: string } }) {
 
 				return {
 					...info,
-					status: info.totalScore / 2 > Number(grades) ? "PASSED" : "FAILED",
+					status: (info.totalScore / 2 > Number(grades) ? "PASSED" : "FAILED") as "PASSED" | "FAILED",
 					grades,
 					precentage: (Number(grades) / info.totalScore) * 100,
 				};
@@ -313,7 +313,7 @@ export default function Page({ params }: { params: { id: string } }) {
 												"text-red-600": subject.status === "FAILED",
 											})}
 										>
-											{status[student.status]}
+											{status[subject.status]}
 										</TypographySmall>
 									</div>
 								</CardFooter>
@@ -358,7 +358,7 @@ export default function Page({ params }: { params: { id: string } }) {
 												"text-red-600": subject.status === "FAILED",
 											})}
 										>
-											{status[student.status]}
+											{status[subject.status]}
 										</TypographySmall>
 									</div>
 								</CardFooter>
