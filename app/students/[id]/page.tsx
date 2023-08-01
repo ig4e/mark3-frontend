@@ -309,9 +309,8 @@ export default function Page({ params }: { params: { id: string } }) {
 										<TypographyMuted>الحالة : </TypographyMuted>
 										<TypographySmall
 											className={cn({
-												"text-green-600": student.status === "PASSED",
-												"text-orange-600": student.status === "SECOND_ROLE",
-												"text-red-600": student.status === "FAILED",
+												"text-green-600": subject.status === "PASSED",
+												"text-red-600": subject.status === "FAILED",
 											})}
 										>
 											{status[student.status]}
@@ -355,9 +354,8 @@ export default function Page({ params }: { params: { id: string } }) {
 										<TypographyMuted>الحالة : </TypographyMuted>
 										<TypographySmall
 											className={cn({
-												"text-green-600": student.status === "PASSED",
-												"text-orange-600": student.status === "SECOND_ROLE",
-												"text-red-600": student.status === "FAILED",
+												"text-green-600": subject.status === "PASSED",
+												"text-red-600": subject.status === "FAILED",
 											})}
 										>
 											{status[student.status]}
