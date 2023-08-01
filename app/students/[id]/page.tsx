@@ -301,10 +301,10 @@ export default function Page({ params }: { params: { id: string } }) {
 									</div>
 								</CardContent>
 								<CardFooter className="flex items-center justify-between">
-									<div className="flex gap-1 items-center">
+									{/* <div className="flex gap-1 items-center">
 										<TypographyMuted>ترتيبك : </TypographyMuted>
 										<TypographySmall>{student.seatNo}</TypographySmall>
-									</div>
+									</div> */}
 									<div className="flex gap-1 items-center">
 										<TypographyMuted>الحالة : </TypographyMuted>
 										<TypographySmall
