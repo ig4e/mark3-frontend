@@ -76,4 +76,24 @@
 	body {
 		@apply text-foreground bg-gradient-to-b from-zinc-900 to-background bg-cover bg-no-repeat min-h-screen;
 	}
+
+	/* width */
+	::-webkit-scrollbar {
+		@apply w-2;
+	}
+
+	/* Track */
+	::-webkit-scrollbar-track {
+		@apply bg-background;
+	}
+
+	/* Handle */
+	::-webkit-scrollbar-thumb {
+		@apply bg-secondary rounded;
+	}
+
+	/* Handle on hover */
+	::-webkit-scrollbar-thumb:hover {
+		@apply bg-secondary/80;
+	}
 }

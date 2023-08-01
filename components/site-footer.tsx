@@ -11,10 +11,10 @@ function SiteFooter() {
 				<Link href={"/"}>
 					<div className="flex items-center gap-2">
 						<Image src={LogoDark} width={32} height={32} alt="mark3 logo"></Image>
-						<TypographyLarge className="mt-2 hidden md:block">مارك3</TypographyLarge>
+						<TypographyLarge className="mt-2">مارك3</TypographyLarge>
 					</div>
 				</Link>
-				<TypographyLarge className="mt-2 hidden md:block">صنع بحب من قبل Ahmed Mohamed</TypographyLarge>
+				<TypographyLarge className="mt-2 text-sm md:text-base">صنع بحب من قبل Ahmed Mohamed</TypographyLarge>
 			</footer>
 		</div>
 	);

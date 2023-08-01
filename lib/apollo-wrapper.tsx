@@ -10,7 +10,7 @@ import {
 
 function makeClient() {
 	const httpLink = new HttpLink({
-		uri: "http://localhost:3000/graphql",
+		uri: process.env.NODE_ENV === "development" ? "http://localhost:3000/graphql" : "https://interior-francyne-ig4e.koyeb.app/graphql",
 	});
 
 	return new NextSSRApolloClient({
