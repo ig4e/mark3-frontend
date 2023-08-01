@@ -168,11 +168,6 @@ const otherSubjectsInfo = {
 	},
 } as const;
 
-export const metadata: Metadata = {
-	title: "درجات الطالب | مارك3",
-	description: "درجات الثانوية مابين ايديك بدون تعب",
-};
-
 export default function Page({ params }: { params: { id: string } }) {
 	const {
 		data: { student },
