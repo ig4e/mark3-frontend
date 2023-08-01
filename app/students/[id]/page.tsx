@@ -292,7 +292,7 @@ export default function Page({ params }: { params: { id: string } }) {
 									<TypographyLead>المجموع : </TypographyLead>
 									<div className="flex items-center gap-2">
 										<Progress value={subject.precentage} max={100} className="border" />
-										<TypographyLarge>{subject.precentage}%</TypographyLarge>
+										<TypographyLarge>{subject.precentage.toFixed(2)}%</TypographyLarge>
 									</div>
 									<div className="flex flex-col items-center">
 										<TypographyLarge className="whitespace-nowrap">
