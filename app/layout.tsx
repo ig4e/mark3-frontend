@@ -12,6 +12,7 @@ const cairo = Cairo({ subsets: ["arabic"] });
 export const metadata: Metadata = {
 	title: "Mark3 | مارك3",
 	description: "درجات الثانوية مابين ايديك بدون تعب",
+	openGraph: { type: "website", locale: "ar_EG", images: ["/og-image.png"] },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
