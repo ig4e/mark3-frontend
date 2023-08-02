@@ -14,7 +14,7 @@ function SiteFooter() {
 						<TypographyLarge className="mt-2">مارك3</TypographyLarge>
 					</div>
 				</Link>
-				<TypographyLarge className="mt-2 text-sm md:text-base">صنع بحب من قبل Ahmed Mohamed</TypographyLarge>
+				<TypographyLarge className="mt-2 text-sm md:text-base">صنع ❤️ من Ahmed Mohamed Elsayed</TypographyLarge>
 			</footer>
 		</div>
 	);
