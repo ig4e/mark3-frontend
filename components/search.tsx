@@ -7,7 +7,6 @@ import {
 	CommandInput,
 	CommandItem,
 	CommandList,
-	CommandLoading,
 	CommandSeparator,
 	CommandShortcut,
 } from "@/components/ui/command";
@@ -34,7 +33,7 @@ const SEARCH_STUDENTS = gql(`query StudentSearch($query: String!) {
         id
         seatNo
         name
-        shool
+        school
         educationalAdministration
         status
         section
@@ -55,7 +54,7 @@ const SEARCH_BY_SEATNO = gql(`query Students($studentWhereInput: StudentWhereInp
 		id
 		seatNo
 		name
-		shool
+		school
 		educationalAdministration
 		status
 		section
@@ -69,16 +68,23 @@ function Search({ noShortcut = false }: { noShortcut: boolean }) {
 	const [open, setOpen] = React.useState(false);
 	const [searchQuery, setSearchQuery] = React.useState("");
 	const debouncedQuery = useDebounce(searchQuery, 500);
-	const { loading, error, data } = useQuery(SEARCH_STUDENTS, { variables: { query: debouncedQuery } });
+	const [loadStudentSearch, { loading, error, data }] = useLazyQuery(SEARCH_STUDENTS, {
+		variables: { query: debouncedQuery },
+		fetchPolicy: "no-cache",
+	});
 	const [loadStudentWitjSeatNo, { loading: studentLoadingWithSeatNo, data: studentDataWithSeatNo }] = useLazyQuery(SEARCH_BY_SEATNO, {
 		variables: { studentWhereInput: { seatNo: { equals: Number(debouncedQuery) } } },
 	});
 
 	useEffect(() => {
-		if (!isNaN(Number(debouncedQuery))) {
-			loadStudentWitjSeatNo({ variables: { studentWhereInput: { seatNo: { equals: Number(debouncedQuery) } } } });
+		if (debouncedQuery) {
+			if (!isNaN(Number(debouncedQuery))) {
+				loadStudentWitjSeatNo({ variables: { studentWhereInput: { seatNo: { equals: Number(debouncedQuery) } } } });
+			} else {
+				loadStudentSearch({ variables: { query: debouncedQuery } });
+			}
 		}
-	}, [debouncedQuery, loadStudentWitjSeatNo]);
+	}, [debouncedQuery, loadStudentWitjSeatNo, loadStudentSearch]);
 
 	React.useEffect(() => {
 		if (!noShortcut) {
@@ -113,7 +119,7 @@ function Search({ noShortcut = false }: { noShortcut: boolean }) {
 			<CommandDialog open={open} onOpenChange={setOpen} commandProps={{ shouldFilter: false }}>
 				<CommandInput placeholder="أكتب اسم الطالب او رقم الجلوس للبحث" value={searchQuery} onValueChange={setSearchQuery} />
 				<CommandList>
-					{studentDataWithSeatNo?.students.items && (
+					{(studentDataWithSeatNo?.students.items.length ?? 0) > 0 && (
 						<CommandGroup heading="الطلاب برقم الجلوس">
 							{studentDataWithSeatNo?.students.items.map((student) => (
 								<Link key={student.id} href={`/students/${student.id}`} onClick={() => setOpen(false)}>
@@ -130,7 +136,7 @@ function Search({ noShortcut = false }: { noShortcut: boolean }) {
 										</div>
 										<div className="flex items-center justify-between gap-4 w-full">
 											<div>
-												<span className="line-clamp-1">{student.shool}</span>
+												<span className="line-clamp-1">{student.school}</span>
 											</div>
 											<div>
 												<CommandShortcut>
@@ -159,7 +165,7 @@ function Search({ noShortcut = false }: { noShortcut: boolean }) {
 									</div>
 									<div className="flex items-center justify-between gap-4 w-full">
 										<div>
-											<span className="line-clamp-1">{student.shool}</span>
+											<span className="line-clamp-1">{student.school}</span>
 										</div>
 										<div>
 											<CommandShortcut>
@@ -171,7 +177,10 @@ function Search({ noShortcut = false }: { noShortcut: boolean }) {
 							</Link>
 						))}
 					</CommandGroup>
-					<CommandEmpty>مفيش نتايج.</CommandEmpty>
+
+					<div className={cn({ hidden: loading })}>
+						<CommandEmpty>مفيش نتايج.</CommandEmpty>
+					</div>
 				</CommandList>
 			</CommandDialog>
 		</>

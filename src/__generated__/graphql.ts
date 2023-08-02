@@ -36,6 +36,17 @@ export type EnumStudentStatusFilter = {
   notIn?: InputMaybe<Array<StudentStatus>>;
 };
 
+export type FloatFilter = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  in?: InputMaybe<Array<Scalars['Float']['input']>>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  not?: InputMaybe<NestedFloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
+};
+
 export type FloatNullableFilter = {
   equals?: InputMaybe<Scalars['Float']['input']>;
   gt?: InputMaybe<Scalars['Float']['input']>;
@@ -59,35 +70,6 @@ export type IntFilter = {
   notIn?: InputMaybe<Array<Scalars['Int']['input']>>;
 };
 
-export type Mark = {
-  __typename?: 'Mark';
-  createdAt: Scalars['DateTime']['output'];
-  id: Scalars['ID']['output'];
-  otherSubjects: OtherSubjects;
-  student: Student;
-  studentId: Scalars['String']['output'];
-  subjects: Subjects;
-  updatedAt: Scalars['DateTime']['output'];
-};
-
-export type MarkNullableRelationFilter = {
-  is?: InputMaybe<MarkWhereInput>;
-  isNot?: InputMaybe<MarkWhereInput>;
-};
-
-export type MarkWhereInput = {
-  AND?: InputMaybe<Array<MarkWhereInput>>;
-  NOT?: InputMaybe<Array<MarkWhereInput>>;
-  OR?: InputMaybe<Array<MarkWhereInput>>;
-  createdAt?: InputMaybe<DateTimeFilter>;
-  id?: InputMaybe<StringFilter>;
-  otherSubjects?: InputMaybe<OtherSubjectsCompositeFilter>;
-  student?: InputMaybe<StudentRelationFilter>;
-  studentId?: InputMaybe<StringFilter>;
-  subjects?: InputMaybe<SubjectsCompositeFilter>;
-  updatedAt?: InputMaybe<DateTimeFilter>;
-};
-
 export type NestedDateTimeFilter = {
   equals?: InputMaybe<Scalars['DateTime']['input']>;
   gt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -104,6 +86,17 @@ export type NestedEnumStudentStatusFilter = {
   in?: InputMaybe<Array<StudentStatus>>;
   not?: InputMaybe<NestedEnumStudentStatusFilter>;
   notIn?: InputMaybe<Array<StudentStatus>>;
+};
+
+export type NestedFloatFilter = {
+  equals?: InputMaybe<Scalars['Float']['input']>;
+  gt?: InputMaybe<Scalars['Float']['input']>;
+  gte?: InputMaybe<Scalars['Float']['input']>;
+  in?: InputMaybe<Array<Scalars['Float']['input']>>;
+  lt?: InputMaybe<Scalars['Float']['input']>;
+  lte?: InputMaybe<Scalars['Float']['input']>;
+  not?: InputMaybe<NestedFloatFilter>;
+  notIn?: InputMaybe<Array<Scalars['Float']['input']>>;
 };
 
 export type NestedFloatNullableFilter = {
@@ -264,12 +257,14 @@ export type Student = {
   createdAt: Scalars['DateTime']['output'];
   educationalAdministration?: Maybe<Scalars['String']['output']>;
   id: Scalars['ID']['output'];
-  mark?: Maybe<Mark>;
   name: Scalars['String']['output'];
+  otherSubjects: OtherSubjects;
+  school?: Maybe<Scalars['String']['output']>;
   seatNo: Scalars['Int']['output'];
   section: Scalars['String']['output'];
-  shool?: Maybe<Scalars['String']['output']>;
   status: StudentStatus;
+  subjects: Subjects;
+  totalScore: Scalars['Float']['output'];
   updatedAt: Scalars['DateTime']['output'];
 };
 
@@ -277,11 +272,6 @@ export type StudentPage = {
   __typename?: 'StudentPage';
   items: Array<Student>;
   pageInfo: PageInfo;
-};
-
-export type StudentRelationFilter = {
-  is?: InputMaybe<StudentWhereInput>;
-  isNot?: InputMaybe<StudentWhereInput>;
 };
 
 export enum StudentStatus {
@@ -297,12 +287,14 @@ export type StudentWhereInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   educationalAdministration?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<StringFilter>;
-  mark?: InputMaybe<MarkNullableRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  otherSubjects?: InputMaybe<OtherSubjectsCompositeFilter>;
+  school?: InputMaybe<StringNullableFilter>;
   seatNo?: InputMaybe<IntFilter>;
   section?: InputMaybe<StringFilter>;
-  shool?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<EnumStudentStatusFilter>;
+  subjects?: InputMaybe<SubjectsCompositeFilter>;
+  totalScore?: InputMaybe<FloatFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -313,12 +305,14 @@ export type StudentWhereUniqueInput = {
   createdAt?: InputMaybe<DateTimeFilter>;
   educationalAdministration?: InputMaybe<StringNullableFilter>;
   id?: InputMaybe<Scalars['String']['input']>;
-  mark?: InputMaybe<MarkNullableRelationFilter>;
   name?: InputMaybe<StringFilter>;
+  otherSubjects?: InputMaybe<OtherSubjectsCompositeFilter>;
+  school?: InputMaybe<StringNullableFilter>;
   seatNo?: InputMaybe<Scalars['Int']['input']>;
   section?: InputMaybe<StringFilter>;
-  shool?: InputMaybe<StringNullableFilter>;
   status?: InputMaybe<EnumStudentStatusFilter>;
+  subjects?: InputMaybe<SubjectsCompositeFilter>;
+  totalScore?: InputMaybe<FloatFilter>;
   updatedAt?: InputMaybe<DateTimeFilter>;
 };
 
@@ -385,23 +379,23 @@ export type StudentQueryVariables = Exact<{
 }>;
 
 
-export type StudentQuery = { __typename?: 'Query', student: { __typename?: 'Student', id: string, seatNo: number, name: string, shool?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string, updatedAt: any, createdAt: any, mark?: { __typename?: 'Mark', id: string, updatedAt: any, createdAt: any, subjects: { __typename?: 'Subjects', arabic?: number | null, firstForeignLanguage?: number | null, secondForeignLanguage?: number | null, pureMathematics?: number | null, appliedMathematics?: number | null, history?: number | null, geography?: number | null, philosophy?: number | null, psychology?: number | null, chemistry?: number | null, biology?: number | null, geology?: number | null, physics?: number | null }, otherSubjects: { __typename?: 'OtherSubjects', religiousEducation?: number | null, nationalEducation?: number | null, economicsAndStatistics?: number | null } } | null } };
+export type StudentQuery = { __typename?: 'Query', student: { __typename?: 'Student', id: string, seatNo: number, name: string, school?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string, totalScore: number, updatedAt: any, createdAt: any, subjects: { __typename?: 'Subjects', arabic?: number | null, firstForeignLanguage?: number | null, secondForeignLanguage?: number | null, pureMathematics?: number | null, appliedMathematics?: number | null, history?: number | null, geography?: number | null, philosophy?: number | null, psychology?: number | null, chemistry?: number | null, biology?: number | null, geology?: number | null, physics?: number | null }, otherSubjects: { __typename?: 'OtherSubjects', religiousEducation?: number | null, nationalEducation?: number | null, economicsAndStatistics?: number | null } } };
 
 export type StudentSearchQueryVariables = Exact<{
   query: Scalars['String']['input'];
 }>;
 
 
-export type StudentSearchQuery = { __typename?: 'Query', searchStudents: { __typename?: 'StudentPage', pageInfo: { __typename?: 'PageInfo', total: number, perPage: number, currentPage: number, lastPage: number, hasNextPage: boolean }, items: Array<{ __typename?: 'Student', id: string, seatNo: number, name: string, shool?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string }> } };
+export type StudentSearchQuery = { __typename?: 'Query', searchStudents: { __typename?: 'StudentPage', pageInfo: { __typename?: 'PageInfo', total: number, perPage: number, currentPage: number, lastPage: number, hasNextPage: boolean }, items: Array<{ __typename?: 'Student', id: string, seatNo: number, name: string, school?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string }> } };
 
 export type StudentsQueryVariables = Exact<{
   studentWhereInput?: InputMaybe<StudentWhereInput>;
 }>;
 
 
-export type StudentsQuery = { __typename?: 'Query', students: { __typename?: 'StudentPage', pageInfo: { __typename?: 'PageInfo', total: number, perPage: number, currentPage: number, lastPage: number, hasNextPage: boolean }, items: Array<{ __typename?: 'Student', id: string, seatNo: number, name: string, shool?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string, updatedAt: any, createdAt: any }> } };
+export type StudentsQuery = { __typename?: 'Query', students: { __typename?: 'StudentPage', pageInfo: { __typename?: 'PageInfo', total: number, perPage: number, currentPage: number, lastPage: number, hasNextPage: boolean }, items: Array<{ __typename?: 'Student', id: string, seatNo: number, name: string, school?: string | null, educationalAdministration?: string | null, status: StudentStatus, section: string, updatedAt: any, createdAt: any }> } };
 
 
-export const StudentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Student"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereUniqueInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StudentWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"student"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"studentWhereUniqueInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereUniqueInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shool"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"mark"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"subjects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"arabic"}},{"kind":"Field","name":{"kind":"Name","value":"firstForeignLanguage"}},{"kind":"Field","name":{"kind":"Name","value":"secondForeignLanguage"}},{"kind":"Field","name":{"kind":"Name","value":"pureMathematics"}},{"kind":"Field","name":{"kind":"Name","value":"appliedMathematics"}},{"kind":"Field","name":{"kind":"Name","value":"history"}},{"kind":"Field","name":{"kind":"Name","value":"geography"}},{"kind":"Field","name":{"kind":"Name","value":"philosophy"}},{"kind":"Field","name":{"kind":"Name","value":"psychology"}},{"kind":"Field","name":{"kind":"Name","value":"chemistry"}},{"kind":"Field","name":{"kind":"Name","value":"biology"}},{"kind":"Field","name":{"kind":"Name","value":"geology"}},{"kind":"Field","name":{"kind":"Name","value":"physics"}}]}},{"kind":"Field","name":{"kind":"Name","value":"otherSubjects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"religiousEducation"}},{"kind":"Field","name":{"kind":"Name","value":"nationalEducation"}},{"kind":"Field","name":{"kind":"Name","value":"economicsAndStatistics"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<StudentQuery, StudentQueryVariables>;
-export const StudentSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StudentSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchStudents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"perPage"}},{"kind":"Field","name":{"kind":"Name","value":"currentPage"}},{"kind":"Field","name":{"kind":"Name","value":"lastPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shool"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}}]}}]}}]}}]} as unknown as DocumentNode<StudentSearchQuery, StudentSearchQueryVariables>;
-export const StudentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Students"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereInput"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"StudentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"students"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"studentWhereInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"perPage"}},{"kind":"Field","name":{"kind":"Name","value":"currentPage"}},{"kind":"Field","name":{"kind":"Name","value":"lastPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"shool"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<StudentsQuery, StudentsQueryVariables>;
+export const StudentDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Student"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereUniqueInput"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"StudentWhereUniqueInput"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"student"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"studentWhereUniqueInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereUniqueInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"school"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}},{"kind":"Field","name":{"kind":"Name","value":"totalScore"}},{"kind":"Field","name":{"kind":"Name","value":"subjects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"arabic"}},{"kind":"Field","name":{"kind":"Name","value":"firstForeignLanguage"}},{"kind":"Field","name":{"kind":"Name","value":"secondForeignLanguage"}},{"kind":"Field","name":{"kind":"Name","value":"pureMathematics"}},{"kind":"Field","name":{"kind":"Name","value":"appliedMathematics"}},{"kind":"Field","name":{"kind":"Name","value":"history"}},{"kind":"Field","name":{"kind":"Name","value":"geography"}},{"kind":"Field","name":{"kind":"Name","value":"philosophy"}},{"kind":"Field","name":{"kind":"Name","value":"psychology"}},{"kind":"Field","name":{"kind":"Name","value":"chemistry"}},{"kind":"Field","name":{"kind":"Name","value":"biology"}},{"kind":"Field","name":{"kind":"Name","value":"geology"}},{"kind":"Field","name":{"kind":"Name","value":"physics"}}]}},{"kind":"Field","name":{"kind":"Name","value":"otherSubjects"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"religiousEducation"}},{"kind":"Field","name":{"kind":"Name","value":"nationalEducation"}},{"kind":"Field","name":{"kind":"Name","value":"economicsAndStatistics"}}]}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]} as unknown as DocumentNode<StudentQuery, StudentQueryVariables>;
+export const StudentSearchDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"StudentSearch"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"query"}},"type":{"kind":"NonNullType","type":{"kind":"NamedType","name":{"kind":"Name","value":"String"}}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"searchStudents"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"query"},"value":{"kind":"Variable","name":{"kind":"Name","value":"query"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"perPage"}},{"kind":"Field","name":{"kind":"Name","value":"currentPage"}},{"kind":"Field","name":{"kind":"Name","value":"lastPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"school"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}}]}}]}}]}}]} as unknown as DocumentNode<StudentSearchQuery, StudentSearchQueryVariables>;
+export const StudentsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"Students"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereInput"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"StudentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"students"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"studentWhereInput"},"value":{"kind":"Variable","name":{"kind":"Name","value":"studentWhereInput"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"pageInfo"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"total"}},{"kind":"Field","name":{"kind":"Name","value":"perPage"}},{"kind":"Field","name":{"kind":"Name","value":"currentPage"}},{"kind":"Field","name":{"kind":"Name","value":"lastPage"}},{"kind":"Field","name":{"kind":"Name","value":"hasNextPage"}}]}},{"kind":"Field","name":{"kind":"Name","value":"items"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"seatNo"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"school"}},{"kind":"Field","name":{"kind":"Name","value":"educationalAdministration"}},{"kind":"Field","name":{"kind":"Name","value":"status"}},{"kind":"Field","name":{"kind":"Name","value":"section"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}}]}}]}}]}}]} as unknown as DocumentNode<StudentsQuery, StudentsQueryVariables>;

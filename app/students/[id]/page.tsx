@@ -22,17 +22,14 @@ export const dynamic = "force-dynamic";
 const GET_STUDENT = gql(`
 query Student($studentWhereUniqueInput: StudentWhereUniqueInput!) {
 	student(studentWhereUniqueInput: $studentWhereUniqueInput) {
-	  id
-	  seatNo
-	  name
-	  shool
-	  educationalAdministration
-	  status
-	  section
-	  updatedAt
-	  createdAt
-	  mark {
 		id
+		seatNo
+		name
+		school
+		educationalAdministration
+		status
+		section
+		totalScore
 		subjects {
 		  arabic
 		  firstForeignLanguage
@@ -56,7 +53,6 @@ query Student($studentWhereUniqueInput: StudentWhereUniqueInput!) {
 		updatedAt
 		createdAt
 	  }
-	}
   }
 `);
 
@@ -155,13 +151,13 @@ const otherSubjectsInfo = {
 		totalScore: 25,
 	},
 	nationalEducation: {
-		title: "مادة علمية",
+		title: "التربية الوطنية",
 		type: "مادة غير مضافة",
 		icon: "",
 		totalScore: 25,
 	},
 	economicsAndStatistics: {
-		title: "مادة علمية",
+		title: "الاقتصاد",
 		type: "مادة غير مضافة",
 		icon: "",
 		totalScore: 50,
@@ -174,8 +170,8 @@ export default function Page({ params }: { params: { id: string } }) {
 	} = useSuspenseQuery(GET_STUDENT, { variables: { studentWhereUniqueInput: { id: params.id } } });
 
 	const calculatedData = useMemo(() => {
-		const { __typename: ___typename, ...subjects } = student?.mark?.subjects || {};
-		const { __typename, ...otherSubjects } = student?.mark?.otherSubjects || {};
+		const { __typename: ___typename, ...subjects } = student.subjects || {};
+		const { __typename, ...otherSubjects } = student.otherSubjects || {};
 
 		const total = Object.values(subjects).reduce((total: number, value) => {
 			if (!isNaN(Number(value))) return total + Number(value);
@@ -242,7 +238,7 @@ export default function Page({ params }: { params: { id: string } }) {
 						<TypographyLarge>{student.educationalAdministration}</TypographyLarge>
 
 						<TypographyLead>المدرسة : </TypographyLead>
-						<TypographyLarge>{student.shool}</TypographyLarge>
+						<TypographyLarge>{student.school}</TypographyLarge>
 
 						<TypographyLead>الشعبة : </TypographyLead>
 						<TypographyLarge>{student.section}</TypographyLarge>

@@ -6,7 +6,7 @@ import Link from "next/link";
 
 function SiteFooter() {
 	return (
-		<div className="bg-zinc-950 w-full mt-auto">
+		<div className="bg-zinc-950 w-full h-14">
 			<footer className="container flex justify-between gap-4 items-center h-14">
 				<Link href={"/"}>
 					<div className="flex items-center gap-2">
